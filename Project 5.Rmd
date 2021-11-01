@@ -1,0 +1,573 @@
+#--------------------Data Setup--------------------
+
+#Reading in data
+data <- read.csv("kaggle_survey_2020_responses.csv")
+
+#--------------------Problem 1----------------
+
+#Narrowing down to US entries
+datatest = data
+dataq1 <- datatest[datatest$Q3 == "United States of America",]
+
+#Omitting those who have no salary
+dataq1[dataq1$Q24 == 0,] <- NA
+dataq1[dataq1$Q24 == "",] <- NA
+dataq1 = na.omit(dataq1)
+
+#Replacing salary ranges with their average numeric value
+dataq1$Q24[dataq1$Q24 == "$0-999"] <- 500
+dataq1$Q24[dataq1$Q24 == "1,000-1,999"] <- 1500
+dataq1$Q24[dataq1$Q24 == "2,000-2,999"] <- 2500
+dataq1$Q24[dataq1$Q24 == "3,000-3,999"] <- 3500
+dataq1$Q24[dataq1$Q24 == "4,000-4,999"] <- 4500
+dataq1$Q24[dataq1$Q24 == "5,000-7,499"] <- 6250
+dataq1$Q24[dataq1$Q24 == "7,500-9,999"] <- 8750
+dataq1$Q24[dataq1$Q24 == "10,000-14,999"] <- 12500
+dataq1$Q24[dataq1$Q24 == "15,000-19,999"] <- 17500
+dataq1$Q24[dataq1$Q24 == "20,000-24,999"] <- 22500
+dataq1$Q24[dataq1$Q24 == "25,000-29,999"] <- 27500
+dataq1$Q24[dataq1$Q24 == "30,000-39,999"] <- 35000
+dataq1$Q24[dataq1$Q24 == "40,000-49,999"] <- 45000
+dataq1$Q24[dataq1$Q24 == "50,000-59,999"] <- 55000
+dataq1$Q24[dataq1$Q24 == "60,000-69,999"] <- 65000
+dataq1$Q24[dataq1$Q24 == "70,000-79,999"] <- 75000
+dataq1$Q24[dataq1$Q24 == "80,000-89,999"] <- 85000
+dataq1$Q24[dataq1$Q24 == "90,000-99,999"] <- 95000
+dataq1$Q24[dataq1$Q24 == "100,000-124,999"] <- 112500
+dataq1$Q24[dataq1$Q24 == "125,000-149,999"] <- 137500
+dataq1$Q24[dataq1$Q24 == "150,000-199,999"] <- 175000
+dataq1$Q24[dataq1$Q24 == "200,000-249,999"] <- 225000
+dataq1$Q24[dataq1$Q24 == "250,000-299,999"] <- 275000
+dataq1$Q24[dataq1$Q24 == "300,000-500,000"] <- 400000
+dataq1$Q24[dataq1$Q24 == "> $500,000"] <- 500000
+
+#Image printing purposes (2 rows 5 columns)
+par(mfrow = c(2,5))
+
+#Histograms and Summaries of salary distributions for all positions
+BusinessAnalyst = dataq1[dataq1$Q5 == 'Business Analyst',]
+bizanalyst <- as.numeric(BusinessAnalyst$Q24)
+hist(bizanalyst, breaks = 25, main = "Business Analyst Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(bizanalyst)
+
+DataAnalyst = dataq1[dataq1$Q5 == 'Data Analyst',]
+datanalyst <- as.numeric(DataAnalyst$Q24)
+hist(datanalyst, breaks = 25, main = "Data Analyst Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(datanalyst)
+
+DataEngineer = dataq1[dataq1$Q5 == 'Data Engineer',]
+datengineer <- as.numeric(DataEngineer$Q24)
+hist(datengineer, breaks = 25, main = "Data Engineer Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(datengineer)
+
+DataScientist = dataq1[dataq1$Q5 == 'Data Scientist',]
+datscientist <- as.numeric(DataScientist$Q24)
+hist(datscientist, breaks = 25, main = "Data Scientist Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(datscientist)
+
+DBA = dataq1[dataq1$Q5 == 'DBA/Database Engineer',]
+dba <- as.numeric(DBA$Q24)
+hist(dba, breaks = 25, main = "Database Engineer Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(dba)
+
+machlearn1 = dataq1[dataq1$Q5 == 'Machine Learning Engineer',]
+machlearn <- as.numeric(machlearn1$Q24)
+hist(machlearn, breaks = 25, main = "Machine Learning Engineer Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(machlearn)
+
+projmanage1 = dataq1[dataq1$Q5 == 'Product/Project Manager',]
+projmanage <- as.numeric(projmanage1$Q24)
+hist(projmanage, breaks = 25, main = "Product/Project Manager Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(projmanage)
+
+research = dataq1[dataq1$Q5 == 'Research Scientist',]
+researchsci <- as.numeric(research$Q24)
+hist(researchsci, breaks = 25, main = "Research Scientist Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(researchsci)
+
+softengineer = dataq1[dataq1$Q5 == 'Software Engineer',]
+softengi <- as.numeric(softengineer$Q24)
+hist(softengi, breaks = 25, main = "Software Engineer Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(softengi)
+
+statistician = dataq1[dataq1$Q5 == 'Statistician',]
+stats <- as.numeric(statistician$Q24)
+hist(stats, breaks = 25, main = "Statistician Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkmagenta", xaxp = c(0, 500000, 25))
+summary(stats)
+
+#--------------------Problem 2----------------
+
+#Defining data for usage
+dataq2 = data
+
+#Image pringing purposes
+par(mfrow = c(1,2))
+
+#Proportions of languages used regularly
+total_lang = length(which(dataq2$Q7_Part_1 != '')) + length(which(dataq2$Q7_Part_2 != '')) + 
+  length(which(dataq2$Q7_Part_3 != '')) + length(which(dataq2$Q7_Part_4 != '')) + 
+  length(which(dataq2$Q7_Part_5 != '')) + length(which(dataq2$Q7_Part_6 != '')) + 
+  length(which(dataq2$Q7_Part_7 != '')) + length(which(dataq2$Q7_Part_8 != '')) + 
+  length(which(dataq2$Q7_Part_9 != '')) + length(which(dataq2$Q7_Part_10 != '')) + 
+  length(which(dataq2$Q7_Part_11 != '')) + length(which(dataq2$Q7_Part_12 != '')) + 
+  length(which(dataq2$Q7_OTHER != ''))
+
+prop_python = length(which(dataq2$Q7_Part_1 != ''))/total_lang
+prop_python
+
+prop_R = length(which(dataq2$Q7_Part_2 != ''))/total_lang
+prop_R
+
+prop_SQL = length(which(dataq2$Q7_Part_3 != ''))/total_lang
+prop_SQL
+
+prop_C = length(which(dataq2$Q7_Part_4 != ''))/total_lang
+prop_C
+
+prop_CPlusPlus = length(which(dataq2$Q7_Part_5 != ''))/total_lang
+prop_CPlusPlus
+
+prop_java = length(which(dataq2$Q7_Part_6 != ''))/total_lang
+prop_java
+
+prop_javascript = length(which(dataq2$Q7_Part_7 != ''))/total_lang
+prop_javascript
+
+prop_julia = length(which(dataq2$Q7_Part_8 != ''))/total_lang
+prop_julia
+
+prop_swift = length(which(dataq2$Q7_Part_9 != ''))/total_lang
+prop_swift
+
+prop_bash = length(which(dataq2$Q7_Part_10 != ''))/total_lang
+prop_bash
+
+prop_matlab_lang = length(which(dataq2$Q7_Part_11 != ''))/total_lang
+prop_matlab_lang
+
+prop_none_lang = length(which(dataq2$Q7_Part_12 != ''))/total_lang
+prop_none_lang
+
+prop_other_lang = length(which(dataq2$Q7_OTHER != ''))/total_lang
+prop_other_lang
+
+#Programming languages used regularly pie chart 
+input_lang <- c(prop_python, prop_R, prop_SQL, prop_C, prop_CPlusPlus, prop_java, 
+                prop_javascript, prop_julia, prop_swift, prop_bash, prop_matlab_lang, 
+                prop_none_lang, prop_other_lang)
+lbls_lang <- c("Python", "R", "SQL", "C", "C++", "Java", "JavaScript", "Julia", "Swift", "Bash", "MATLAB", "None", "Other")
+lbls_lang <- paste(lbls_lang, 100*(round(input_lang, digits = 4)))
+lbls_lang <- paste(lbls_lang,"%",sep="") 
+pie(input_lang,labels = lbls_lang, col=rainbow(length(lbls_lang)),
+    main="Programming Languages", radius = 1, cex = 0.7)
+
+#Proportions of environments used regularly
+total_environments = length(which(dataq2$Q9_Part_1 != '')) + length(which(dataq2$Q9_Part_2 != '')) + 
+  length(which(dataq2$Q9_Part_3 != '')) + length(which(dataq2$Q9_Part_4 != '')) + 
+  length(which(dataq2$Q9_Part_5 != '')) + length(which(dataq2$Q9_Part_6 != '')) + 
+  length(which(dataq2$Q9_Part_7 != '')) + length(which(dataq2$Q9_Part_8 != '')) + 
+  length(which(dataq2$Q9_Part_9 != '')) + length(which(dataq2$Q9_Part_10 != '')) + 
+  length(which(dataq2$Q9_Part_11 != '')) + length(which(dataq2$Q9_OTHER != ''))
+
+prop_jupyter = length(which(dataq2$Q9_Part_1 != ''))/total_environments
+prop_jupyter
+
+prop_RStudio = length(which(dataq2$Q9_Part_2 != ''))/total_environments
+prop_RStudio
+
+prop_VisStudio = length(which(dataq2$Q9_Part_3 != ''))/total_environments
+prop_VisStudio
+
+prop_VisStudioCode = length(which(dataq2$Q9_Part_4 != ''))/total_environments
+prop_VisStudioCode
+
+prop_PyCharm = length(which(dataq2$Q9_Part_5 != ''))/total_environments
+prop_PyCharm
+
+prop_spyder = length(which(dataq2$Q9_Part_6 != ''))/total_environments
+prop_spyder
+
+prop_NotepadPlusPlus = length(which(dataq2$Q9_Part_7 != ''))/total_environments
+prop_NotepadPlusPlus
+
+prop_sublime = length(which(dataq2$Q9_Part_8 != ''))/total_environments
+prop_sublime
+
+prop_VimEmacs = length(which(dataq2$Q9_Part_9 != ''))/total_environments
+prop_VimEmacs
+
+prop_matlab_env = length(which(dataq2$Q9_Part_10 != ''))/total_environments
+prop_matlab_env
+
+prop_none_env = length(which(dataq2$Q9_Part_11 != ''))/total_environments
+prop_none_env
+
+prop_other_env = length(which(dataq2$Q9_OTHER != ''))/total_environments
+prop_other_env
+
+
+#Coding environments used regularly pie chart 
+input_env <- c(prop_jupyter, prop_RStudio, prop_VisStudio, prop_VisStudioCode, 
+               prop_PyCharm, prop_spyder, prop_NotepadPlusPlus, prop_sublime, 
+               prop_VimEmacs, prop_matlab_env, prop_none_env, prop_other_env)
+lbls_env <- c("Jupyter", "RStudio", "VisStudio", "VSCode", "PyCharm", "Spyder", 
+               "Notepad++", "Sublime", "Vim/Emacs", "MATLAB", "None", "Other")
+lbls_env <- paste(lbls_env, 100*(round(input_env, digits = 4)))
+lbls_env <- paste(lbls_env,"%",sep="") 
+pie(input_env,labels = lbls_env, col=rainbow(length(lbls_env)),
+    main="Development Environments", radius = 1, cex = 0.7)
+
+par(mfrow = c(1,2))
+
+#Proportions of types of hardware used regularly
+total_hardware = length(which(dataq2$Q12_Part_1 != '')) + length(which(dataq2$Q12_Part_2 != '')) + 
+  length(which(dataq2$Q12_Part_3 != '')) + length(which(dataq2$Q12_OTHER != ''))
+
+prop_GPU = length(which(dataq2$Q12_Part_1 != ''))/total_hardware
+prop_GPU
+
+prop_TPU = length(which(dataq2$Q12_Part_2 != ''))/total_hardware
+prop_TPU
+
+prop_none_hardware = length(which(dataq2$Q12_Part_3 != ''))/total_hardware
+prop_none_hardware
+
+prop_other_hardware = length(which(dataq2$Q12_OTHER != ''))/total_hardware
+prop_other_hardware
+
+#Hardware used regularly pie chart 
+input_hardware <- c(prop_GPU, prop_TPU, prop_none_hardware, prop_other_hardware)
+lbls_hardware <- c("GPUs", "TPUs", "None", "Other")
+lbls_hardware <- paste(lbls_hardware, 100*(round(input_hardware, digits = 4)))
+lbls_hardware <- paste(lbls_hardware,"%",sep="") 
+pie(input_hardware,labels = lbls_hardware, col=rainbow(length(lbls_hardware)),
+    main="Specialized Hardware", radius = 1, cex = 0.7)
+
+#Proportions of data visualization libraries used regularly
+total_libraries = length(which(dataq2$Q14_Part_1 != '')) + length(which(dataq2$Q14_Part_2 != '')) + 
+  length(which(dataq2$Q14_Part_3 != '')) + length(which(dataq2$Q14_Part_4 != '')) + 
+  length(which(dataq2$Q14_Part_5 != '')) + length(which(dataq2$Q14_Part_6 != '')) + 
+  length(which(dataq2$Q14_Part_7 != '')) + length(which(dataq2$Q14_Part_8 != '')) + 
+  length(which(dataq2$Q14_Part_9 != '')) + length(which(dataq2$Q14_Part_10 != '')) + 
+  length(which(dataq2$Q14_Part_11 != '')) + length(which(dataq2$Q14_OTHER != ''))
+
+prop_matplotlib = length(which(dataq2$Q14_Part_1 != ''))/total_libraries
+prop_matplotlib
+
+prop_seaborn = length(which(dataq2$Q14_Part_2 != ''))/total_libraries
+prop_seaborn
+
+prop_plotly = length(which(dataq2$Q14_Part_3 != ''))/total_libraries
+prop_plotly
+
+prop_ggplot = length(which(dataq2$Q14_Part_4 != ''))/total_libraries
+prop_ggplot
+
+prop_shiny = length(which(dataq2$Q14_Part_5 != ''))/total_libraries
+prop_shiny
+
+prop_D3js = length(which(dataq2$Q14_Part_6 != ''))/total_libraries
+prop_D3js
+
+prop_altair = length(which(dataq2$Q14_Part_7 != ''))/total_libraries
+prop_altair
+
+prop_bokeh = length(which(dataq2$Q14_Part_8 != ''))/total_libraries
+prop_bokeh
+
+prop_geoplotlib = length(which(dataq2$Q14_Part_9 != ''))/total_libraries
+prop_geoplotlib
+
+prop_leaflet = length(which(dataq2$Q14_Part_10 != ''))/total_libraries
+prop_leaflet
+
+prop_none_lib = length(which(dataq2$Q14_Part_11 != ''))/total_libraries
+prop_none_lib
+
+prop_other_lib = length(which(dataq2$Q14_OTHER != ''))/total_libraries
+prop_other_lib
+
+#Data visualization libraries used regularly pie chart 
+input_lib <- c(prop_matplotlib, prop_seaborn, prop_plotly, prop_ggplot, 
+               prop_shiny, prop_D3js, prop_altair, prop_bokeh, prop_geoplotlib, 
+               prop_leaflet, prop_none_lib, prop_other_lib)
+lbls_lib <- c("Matplotlib", "Seaborn", "Plotly", "ggplot/ggplot2", "Shiny", 
+              "D3.js", "Altair", "Bokeh", "Geoplotlib", "Leaflet/Folium", "None", "Other")
+lbls_lib <- paste(lbls_lib, 100*(round(input_lib, digits = 4)))
+lbls_lib <- paste(lbls_lib,"%",sep="") 
+pie(input_lib,labels = lbls_lib, col=rainbow(length(lbls_lib)),
+    main="Data Visualization Libraries/Tools", radius = 1, cex = 0.7)
+
+#--------------------Problem 3----------------
+
+#Breaking US Data into men and women
+datamen <- dataq1[dataq1$Q2 == "Man",]
+datawomen <- dataq1[dataq1$Q2 == "Woman",]
+
+#Image Printing purposes
+par(mfrow = c(1,2))
+
+#Histograms of male and female salaries
+mensalary <- as.numeric(datamen$Q24)
+hist(mensalary, breaks = 10, main = "Men's Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "darkgoldenrod1", xaxp = c(0, 500000, 25))
+summary(mensalary)
+
+womensalary <- as.numeric(datawomen$Q24)
+hist(womensalary, breaks = 10, main = "Women's Salaries", xlab = "Salary ($)", ylab = "Frequency", xlim = c(0, 500000), 
+     col = "coral1", xaxp = c(0, 500000, 25))
+summary(womensalary)
+
+#T-test for difference in means and 95% confidence interval for differences
+testerboi <- t.test(na.omit(mensalary),na.omit(womensalary))
+testerboi
+
+#Calculating male and female average salaries for each position
+menproj <- datamen[datamen$Q5 == "Product/Project Manager",]
+femproj <- datawomen[datawomen$Q5 == "Product/Project Manager",]
+menprojsal <- as.numeric(menproj$Q24)
+femprojsal <- as.numeric(femproj$Q24)
+summary(menprojsal)
+summary(femprojsal)
+
+menbiz <- datamen[datamen$Q5 == "Business Analyst",]
+fembiz <- datawomen[datawomen$Q5 == "Business Analyst",]
+menbizsal <- as.numeric(menbiz$Q24)
+fembizsal <- as.numeric(fembiz$Q24)
+summary(menbizsal)
+summary(fembizsal)
+
+mendat <- datamen[datamen$Q5 == "Data Analyst",]
+femdat <- datawomen[datawomen$Q5 == "Data Analyst",]
+mendatsal <- as.numeric(mendat$Q24)
+femdatsal <- as.numeric(femdat$Q24)
+summary(mendatsal)
+summary(femdatsal)
+
+mendateng <- datamen[datamen$Q5 == "Data Engineer",]
+femdateng <- datawomen[datawomen$Q5 == "Data Engineer",]
+mendatengsal <- as.numeric(mendateng$Q24)
+femdatengsal <- as.numeric(femdateng$Q24)
+summary(mendatengsal)
+summary(femdatengsal)
+
+mendatsci <- datamen[datamen$Q5 == "Data Scientist",]
+femdatsci <- datawomen[datawomen$Q5 == "Data Scientist",]
+mendatscisal <- as.numeric(mendatsci$Q24)
+femdatscisal <- as.numeric(femdatsci$Q24)
+summary(mendatscisal)
+summary(femdatscisal)
+
+mendatbaseeng <- datamen[datamen$Q5 == "DBA/Database Engineer",]
+femdatbaseeng <- datawomen[datawomen$Q5 == "DBA/Database Engineer",]
+mendatbaseengsal <- as.numeric(mendatbaseeng$Q24)
+femdatbaseengsal <- as.numeric(femdatbaseeng$Q24)
+summary(mendatbaseengsal)
+summary(femdatbaseengsal)
+
+menmac <- datamen[datamen$Q5 == "Machine Learning Engineer",]
+femmac <- datawomen[datawomen$Q5 == "Machine Learning Engineer",]
+menmacsal <- as.numeric(menmac$Q24)
+femmacsal <- as.numeric(femmac$Q24)
+summary(menmacsal)
+summary(femmacsal)
+
+menresci <- datamen[datamen$Q5 == "Research Scientist",]
+femresci <- datawomen[datawomen$Q5 == "Research Scientist",]
+menrescisal <- as.numeric(menresci$Q24)
+femrescisal <- as.numeric(femresci$Q24)
+summary(menrescisal)
+summary(femrescisal)
+
+#Software Engineer
+mensoftengi <- datamen[datamen$Q5 == "Software Engineer",]
+femsoftengi <- datawomen[datawomen$Q5 == "Software Engineer",]
+mensoftengisal <- as.numeric(mensoftengi$Q24)
+femsoftengisal <- as.numeric(femsoftengi$Q24)
+summary(mensoftengisal)
+summary(femsoftengisal)
+
+#Statistician
+menstat <-datamen[datamen$Q5 == "Statistician",]
+femstat <- datawomen[datawomen$Q5 == "Statistician",]
+menstatsal <- as.numeric(menstat$Q24)
+femstatsal <- as.numeric(femstat$Q24)
+summary(menstatsal)
+summary(femstatsal)
+
+
+#--------------------Problem 4----------------
+#Defining data for usage
+dataq4a = dataq1
+dataq4a[dataq4a$Q6 == '',] <- NA
+dataq4a = na.omit(dataq4a)
+dataq4a$Q6[dataq4a$Q6 == "I have never written code"] <- 0
+dataq4a$Q6[dataq4a$Q6 == "< 1 years"] <- 0.5
+dataq4a$Q6[dataq4a$Q6 == "1-2 years"] <- 1.5
+dataq4a$Q6[dataq4a$Q6 == "3-5 years"] <- 4
+dataq4a$Q6[dataq4a$Q6 == "5-10 years"] <- 7.5
+dataq4a$Q6[dataq4a$Q6 == "10-20 years"] <- 15
+dataq4a$Q6[dataq4a$Q6 == "20+ years"] <- 20
+
+dataq4b = dataq1
+dataq4b[dataq4b$Q4 == 'I prefer not to answer',] <- NA
+dataq4b[dataq4b$Q4 == 'No formal education past high school',] <- NA
+dataq4b = na.omit(dataq4b)
+dataq4b$Q4[dataq4b$Q4 == "Some college/university study without earning a bachelor's degree"] <- 2
+dataq4b$Q4[dataq4b$Q4 == "Bachelor's degree"] <- 4
+dataq4b$Q4[dataq4b$Q4 == "Master's degree"] <- 6
+dataq4b$Q4[dataq4b$Q4 == "Professional degree"] <- 7
+dataq4b$Q4[dataq4b$Q4 == "Doctoral degree"] <- 9
+
+#Regression of US Salary vs. Programming Experience
+par(mfrow = c(1,1))
+plot(dataq4a$Q24 ~ dataq4a$Q6, ylab = "Salary ($USD)", xlab = "Programming Experience (years)",
+     main = 'U.S. Salaries vs. Years of Coding Experience', pch=19, col='blue')
+lm_salary_coding = lm(dataq4a$Q24 ~ dataq4a$Q6)
+abline(lm_salary_coding, col = 'red', lwd = 3)
+summary(lm_salary_coding)
+
+#Residual plot of US Salary vs. Programming Experience
+plot(residuals(lm_salary_coding) ~ dataq4a$Q6, ylab = "Residuals", 
+     xlab = "Programming Experience (years)", pch=19, col='blue')
+abline(h = 0, col='black', lwd = 3)
+
+#Residual histogram of US Salary vs. Programming Experience
+hist(residuals(lm_salary_coding), main = 'Residuals of US Salary vs. Programming Experience')
+
+#Residual KS Test of US Salary vs. Programming Experience
+ks.test(residuals(lm_salary_coding), pnorm, mean=mean(residuals(lm_salary_coding)), 
+        sd=sd(residuals(lm_salary_coding)))
+
+#Residual QQ plot of US Salary vs. Programming Experience
+qqnorm(residuals(lm_salary_coding))
+qqline(residuals(lm_salary_coding))
+
+#Regression of US Salary vs. Years of Higher Education
+plot(dataq4b$Q24 ~ dataq4b$Q4, ylab = "Salary ($USD)", xlab = "Length of Higher Education (years)",
+     main = 'U.S. Salaries vs. Years of Higher Education', pch=19, col='blue')
+lm_salary_education = lm(dataq4b$Q24 ~ dataq4b$Q4)
+abline(lm_salary_education, col = 'red', lwd = 3)
+summary(lm_salary_education)
+
+#Residual plot of US Salary vs. Years of Higher Education
+plot(residuals(lm_salary_education) ~ dataq4b$Q4, ylab = "Residuals", 
+     xlab = "Length of Higher Education (years)", pch=19, col='blue')
+abline(h = 0, col='black', lwd = 3)
+
+#Residual histogram of US Salary vs. Years of Higher Education
+hist(residuals(lm_salary_education), main = 'Residuals of U.S. Salaries vs. Years of Higher Education')
+
+#Residual KS Test of US Salary vs. Years of Higher Education
+ks.test(residuals(lm_salary_education), pnorm, mean=mean(residuals(lm_salary_education)), 
+        sd=sd(residuals(lm_salary_education)))
+
+#Residual QQ plot of US Salary vs. Years of Higher Education
+qqnorm(residuals(lm_salary_education))
+qqline(residuals(lm_salary_education))
+
+
+#--------------------Advanced Analysis----------------
+
+#Men's stats for salary, years of machine learning, years of coding
+summary(as.numeric(menmac$Q24))
+summary(as.numeric(dataq4d$Q15))
+summary(as.numeric(dataq4d$Q6))
+
+#Women's stats for salary, years of machine learning, years of coding
+summary(as.numeric(femmac$Q24))
+summary(as.numeric(dataq4c$Q15))
+summary(as.numeric(dataq4c$Q6))
+
+#Changing intervals to means for men
+dataq4d = menmac
+dataq4d[dataq4d$Q15 == '',] <- NA
+dataq4d$Q15[dataq4d$Q15 == "Under 1 year"] <- NA
+dataq4d = na.omit(dataq4d)
+dataq4d$Q15[dataq4d$Q15 == "I do not use machine learning methods"] <- 0
+dataq4d$Q15[dataq4d$Q15 == "1-2 years"] <- 1.5
+dataq4d$Q15[dataq4d$Q15 == "2-3 years"] <- 2.5
+dataq4d$Q15[dataq4d$Q15 == "3-4 years"] <- 3.5
+dataq4d$Q15[dataq4d$Q15 == "4-5 years"] <- 4.5
+dataq4d$Q15[dataq4d$Q15 == "5-10 years"] <- 7.5
+dataq4d$Q15[dataq4d$Q15 == "10-20 years"] <- 15
+dataq4d$Q15[dataq4d$Q15 == "20 or more years"] <- 20
+dataq4d <- dataq4d[-c(24), ]
+
+dataq4d[dataq4d$Q6 == '',] <- NA
+dataq4d = na.omit(dataq4d)
+dataq4d$Q6[dataq4d$Q6 == "I have never written code"] <- 0
+dataq4d$Q6[dataq4d$Q6 == "< 1 years"] <- 0.5
+dataq4d$Q6[dataq4d$Q6 == "1-2 years"] <- 1.5
+dataq4d$Q6[dataq4d$Q6 == "3-5 years"] <- 4
+dataq4d$Q6[dataq4d$Q6 == "5-10 years"] <- 7.5
+dataq4d$Q6[dataq4d$Q6 == "10-20 years"] <- 15
+dataq4d$Q6[dataq4d$Q6 == "20+ years"] <- 20
+
+
+#Changing intervals to means for women
+dataq4c = femmac
+dataq4c[dataq4c$Q15 == '',] <- NA
+dataq4c = na.omit(dataq4c)
+dataq4c$Q15[dataq4c$Q15 == "I do not use machine learning methods"] <- 0
+dataq4c$Q15[dataq4c$Q15 == "Under 1 year"] <- 0.5
+dataq4c$Q15[dataq4c$Q15 == "1-2 years"] <- 1.5
+dataq4c$Q15[dataq4c$Q15 == "2-3 years"] <- 2.5
+dataq4c$Q15[dataq4c$Q15 == "3-4 years"] <- 3.5
+dataq4c$Q15[dataq4c$Q15 == "4-5 years"] <- 4.5
+dataq4c$Q15[dataq4c$Q15 == "5-10 years"] <- 7.5
+dataq4c$Q15[dataq4c$Q15 == "10-20 years"] <- 15
+dataq4c$Q15[dataq4c$Q15 == "20 or more years"] <- 20
+dataq4c <- dataq4c[-c(7), ]
+
+dataq4c[dataq4c$Q6 == '',] <- NA
+dataq4c = na.omit(dataq4c)
+dataq4c$Q6[dataq4c$Q6 == "I have never written code"] <- 0
+dataq4c$Q6[dataq4c$Q6 == "< 1 years"] <- 0.5
+dataq4c$Q6[dataq4c$Q6 == "1-2 years"] <- 1.5
+dataq4c$Q6[dataq4c$Q6 == "3-5 years"] <- 4
+dataq4c$Q6[dataq4c$Q6 == "5-10 years"] <- 7.5
+dataq4c$Q6[dataq4c$Q6 == "10-20 years"] <- 15
+dataq4c$Q6[dataq4c$Q6 == "20+ years"] <- 20
+
+
+#Linear regression for men (years of machine learning vs salary)
+par(mfrow = c(1,2))
+plot(dataq4d$Q24 ~ dataq4d$Q15, ylab = "Salary ($USD)", xlab = "Machine Learning Experience (years)",
+     main = 'Male Salary vs. Machine Learning (yrs)', pch=19, col='blue')
+lm_salary_menmac = lm(dataq4d$Q24 ~ dataq4d$Q15)
+abline(lm_salary_menmac, col = 'red', lwd = 3)
+summary(lm_salary_menmac)
+
+#Linear regression for men (years of coding vs salary)
+plot(dataq4d$Q24 ~ dataq4d$Q6, ylab = "Salary ($USD)", xlab = "Coding Experience (years)",
+     main = 'Male Salary vs. Coding (yrs)', pch=19, col='blue')
+lm_salary_menmacc = lm(dataq4d$Q24 ~ dataq4d$Q6)
+abline(lm_salary_menmacc, col = 'red', lwd = 3)
+summary(lm_salary_menmacc)
+
+
+#Linear regression for women (years of machine learning vs salary)
+par(mfrow = c(1,2))
+plot(dataq4c$Q24 ~ dataq4c$Q15, ylab = "Salary ($USD)", xlab = "Machine Learning Experience (years)",
+     main = 'Female Salary vs. Machine Learning (yrs)', pch=19, col='blue')
+lm_salary_femmac = lm(dataq4c$Q24 ~ dataq4c$Q15)
+abline(lm_salary_femmac, col = 'red', lwd = 3)
+summary(lm_salary_femmac)
+
+#Linear regression for women (years of coding vs salary)
+plot(dataq4c$Q24 ~ dataq4c$Q6, ylab = "Salary ($USD)", xlab = "Length of Coding Experience (years)",
+     main = 'Female Salary vs. Coding (yrs)', pch=19, col='blue')
+lm_salary_femmacc = lm(dataq4c$Q24 ~ dataq4c$Q6)
+abline(lm_salary_femmacc, col = 'red', lwd = 3)
+summary(lm_salary_femmacc)
